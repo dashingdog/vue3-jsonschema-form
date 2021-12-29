@@ -4,9 +4,9 @@
  */
 import { defineComponent, PropType } from 'vue'
 import { createUseStyles } from 'vue-jss'
-import { FiledPropsDefine, Schema } from '../types'
-import SelectionWidget from '../widgets/Selection'
+import { FiledPropsDefine, Schema, SelectionWidgetNames } from '../types'
 import { useVJSFContext } from '../context'
+import { getWidget } from '../theme'
 
 const useStyles = createUseStyles({
   container: {
@@ -53,7 +53,7 @@ const ArrayItemWrapper = defineComponent({
   },
   setup(props, { slots }) {
     const classesRef = useStyles()
-
+    const context = useVJSFContext()
     const handleAdd = () => props.onAdd(props.index)
     const handleDown = () => props.onDown(props.index)
     const handleUp = () => props.onUp(props.index)
@@ -154,9 +154,10 @@ export default defineComponent({
 
       props.onChange(arr)
     }
+    const SelectionWidgetRef = getWidget(SelectionWidgetNames.SelectionWidget)
     return () => {
       const { schema, rootSchema, value } = props
-
+      const SelectionWidget = SelectionWidgetRef.value
       const SchemaItem = context.SchemaItem
 
       const isMultiType = Array.isArray(schema.items)

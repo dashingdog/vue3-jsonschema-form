@@ -1,4 +1,5 @@
-import { PropType, defineComponent } from 'vue'
+import { PropType, defineComponent, DefineComponent } from 'vue'
+
 export enum SchemaTypes {
   'NUMBER' = 'number',
   'INTEGER' = 'integer',
@@ -15,8 +16,10 @@ export interface Schema {
   type?: SchemaTypes | string
   const?: any
   format?: string
+
   title?: string
   default?: any
+
   properties?: {
     [key: string]: Schema
   }
@@ -28,13 +31,15 @@ export interface Schema {
   oneOf?: Schema[]
   anyOf?: Schema[]
   allOf?: Schema[]
+  // TODO: uiSchema
   // vjsf?: VueJsonSchemaConfig
   required?: string[]
   enum?: any[]
-  enumName?: any[]
+  enumNames?: any[]
   enumKeyValue?: any[]
   additionalProperties?: any
   additionalItems?: Schema
+
   minLength?: number
   maxLength?: number
   minimun?: number
@@ -67,3 +72,53 @@ export const TypeHelperComponent = defineComponent({
 })
 
 export type CommonFieldType = typeof TypeHelperComponent
+
+export const CommonWidgetPropsDefine = {
+  value: {},
+  onChange: {
+    type: Function as PropType<(v: any) => void>,
+    required: true,
+  },
+} as const
+
+export const SelectionWidgetPropsDefine = {
+  ...CommonWidgetPropsDefine,
+  options: {
+    type: Array as PropType<
+      {
+        key: string
+        value: any
+      }[]
+    >,
+    required: true,
+  },
+} as const
+
+export type CommonWidgetDefine = DefineComponent<
+  typeof CommonWidgetPropsDefine,
+  {},
+  {}
+>
+
+export type SelectionWidgetDefine = DefineComponent<
+  typeof SelectionWidgetPropsDefine,
+  {},
+  {}
+>
+
+export enum SelectionWidgetNames {
+  SelectionWidget = 'SelectionWidget',
+}
+
+export enum CommonWidgetNames {
+  TextWidget = 'TextWidget',
+  NumberWidget = 'NumberWidget',
+}
+
+export interface Theme {
+  widgets: {
+    [SelectionWidgetNames.SelectionWidget]: SelectionWidgetDefine
+    [CommonWidgetNames.TextWidget]: CommonWidgetDefine
+    [CommonWidgetNames.NumberWidget]: CommonWidgetDefine
+  }
+}

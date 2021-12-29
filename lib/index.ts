@@ -4,7 +4,13 @@
  */
 import SchemaForm from './SchemaForm'
 import NumberFiled from './fields/NumberField'
+import StringField from './fields/StringField'
+import ArrayField from './fields/ArrayField'
+import SelectionWidget from './widgets/Selection'
+import ThemeProvider from './theme'
 
 export default SchemaForm
 
-export { NumberFiled }
+export * from './types'
+
+export { NumberFiled, StringField, ArrayField, SelectionWidget, ThemeProvider }

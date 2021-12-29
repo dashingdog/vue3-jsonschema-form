@@ -1,5 +1,5 @@
-import { defineComponent, PropType, provide, reactive } from 'vue'
-import { Schema, SchemaTypes } from './types'
+import { defineComponent, PropType, provide } from 'vue'
+import { Schema } from './types'
 import SchemaItem from './SchemaItem'
 import { SchemaFormContextKey } from './context'
 type A = typeof SchemaItem
